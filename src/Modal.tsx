@@ -1,36 +1,33 @@
 import React, {  useState } from 'react';
 import { css } from '@emotion/react';
-import { cx } from '@emotion/css';
 import { FaChevronDown } from 'react-icons/fa';
 import { userData, User, Group } from './data';
 import { userFilter, groupFilter } from './filters';
 import { TextInput } from './components/TextInput';
-import { SearchTypeModal } from './components/SearchTypeModal';
+import { SearchTypeModal, typeUser, SearchType } from './components/SearchTypeModal';
 import { UserSuggestions } from './components/suggestions/UserSuggestions';
 import { GroupSuggestions } from './components/suggestions/GroupSuggestions';
 import { SelectedUsers } from './components/SelectedUsers';
 
-console.log(userData);
 const actions = [{ id: 0, label: '共有しない' }, { id: 1, label: 'アカウント内のすべてのユーザーに共有する'}, { id: 2, label: 'アカウント内の選択したユーザーに共有する'}];
+
 export const Modal: React.FC = () => {
   const [action, setAction] = useState(0);
   const [word, setWord] = useState("");
   const [isOpenSearchType, setIsOpenSearchType] = useState(false);
-  const [searchType, setSearchType] = useState(0);
+  const [searchType, setSearchType] = useState<SearchType>(typeUser);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [focused, setFocused] = useState(false);
-  const list: any[] = searchType === 0 ? userData.users : userData.groups;
-  const filteredList = searchType === 0 ? list.filter((user: any) => !selectedUsers.includes(user)) : list;
-  console.log(selectedUsers);
+  const list: User[] | Group[] = searchType === typeUser ? userData.users : userData.groups;
+  const filteredList = searchType === typeUser ? (list as User[]).filter((user: User) => !selectedUsers.includes(user)) : list;
   const onChangeWord = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWord(e.target.value);
   };
   const onChangeAction = (e: React.ChangeEvent<HTMLInputElement>) => setAction(Number(e.target.value));
   const onClickSearchType = () => { setIsOpenSearchType(!isOpenSearchType) };
-  const onChangeSearchType = (type: number) => { setSearchType(type) };
-  const onSelect = (user: any) => {
-    console.log('onselect', user);
-    if (selectedUsers.find((u: any) => u.id === user.id)) return;
+  const onChangeSearchType = (type: SearchType) => { setSearchType(type) };
+  const onSelect = (user: User) => {
+    if (selectedUsers.find((u: User) => u.id === user.id)) return;
     setSelectedUsers([...selectedUsers, user]);
     setWord("");
   }
@@ -43,7 +40,7 @@ export const Modal: React.FC = () => {
     <div css={cssOverlay}></div>
     <div css={cssModalContent}>
       <h2 css={cssModalTitle}>プロジェクトの他ユーザーとの共有</h2>
-      <div css={cssActions} onChange={onChangeAction}>{
+      <div onChange={onChangeAction}>{
         actions.map((action) => (
           <div key={action.label} css={cssActionsItem}><label><input name="action" type="radio" value={action.id} />{ action.label }</label></div>
         ))
@@ -55,8 +52,7 @@ export const Modal: React.FC = () => {
             <TextInput defaultValue={word} onInputCapture={onChangeWord} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
             <div css={cssSearchType} style={{whiteSpace: 'nowrap', marginLeft: 10}}>{ searchType === 0 ? 'ユーザー名' : 'グループ名' }</div>
             <div
-              css={cssArrowDownButton}
-              className={cx({isActive: isOpenSearchType})}
+              css={[cssArrowDownButton, isOpenSearchType && cssButtonIsActive]}
               onClick={onClickSearchType}
             >
               <FaChevronDown />
@@ -68,7 +64,6 @@ export const Modal: React.FC = () => {
               : <GroupSuggestions visible={focused} word={word} list={filteredList} filter={groupFilter} onSelect={onSelectGroup} />
             }
           </div>
-
           <SelectedUsers users={selectedUsers} />
         </>
       }
@@ -110,8 +105,6 @@ const cssModalTitle = css`
   font-size: 30px;
 `;
 
-const cssActions = css`
-`;
 const cssActionsItem = css`
   margin-bottom: 14px;
   input {
@@ -140,11 +133,12 @@ const cssArrowDownButton = css`
   &:hover {
     background-color: #ddeef7;
   }
-  &.isActive {
-    background-color: #ddeef7;
-    svg {
-      transform: rotate(180deg);
-    }
+`;
+
+const cssButtonIsActive = css`
+  background-color: #ddeef7;
+  svg {
+    transform: rotate(180deg);
   }
 `;
 

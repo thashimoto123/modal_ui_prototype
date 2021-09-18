@@ -1,21 +1,24 @@
 import React from 'react';
 import { css } from '@emotion/react';
 
+export const typeUser = 0 as const;
+export const typeGroup = 1 as const;
+export type SearchType = typeof typeUser | typeof typeGroup;
 export const SearchTypeModal: React.FC<{
   isOpen: boolean;
   value: number;
-  onChange: (type: number) => void;
+  onChange: (type: SearchType) => void;
   className?: string;
 }> = ({ isOpen, onChange, value, className }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(Number(e.target.value));
+    onChange(Number(e.target.value) as SearchType);
   };
   return (
     <div css={[cssSearchTypeModal, isOpen && cssIsOpen]} className={className}>
       <div css={cssModalTitle}>SEARCH IN</div>
       <div onChange={handleChange}>
-        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" defaultValue={0} defaultChecked={value === 0} />ユーザー名</label></div>
-        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" defaultValue={1} defaultChecked={value === 1} />グループ名</label></div>
+        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" defaultValue={typeUser} defaultChecked={value === typeUser} />ユーザー名</label></div>
+        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" defaultValue={typeGroup} defaultChecked={value === typeGroup} />グループ名</label></div>
       </div>
     </div>
   )

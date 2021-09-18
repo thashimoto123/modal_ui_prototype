@@ -38,3 +38,5 @@ export const userData = {
   users,
   groups,
 }
+
+console.log(userData);
