@@ -5,6 +5,7 @@ import { FaChevronDown } from 'react-icons/fa';
 import { userData, User, Group } from './data';
 import useSuggestion from './hooks/useSuggestion';
 import { userFilter, groupFilter } from './filters';
+import { TextInput } from '@/components/TextInput';
 
 console.log(userData);
 const actions = [{ id: 0, label: '共有しない' }, { id: 1, label: 'アカウント内のすべてのユーザーに共有する'}, { id: 2, label: 'アカウント内の選択したユーザーに共有する'}];
@@ -48,7 +49,7 @@ export const Modal: React.FC = () => {
         action === 2 &&
         <>
           <div css={cssWordInputWrapper}>
-            <TextArea value={word} onInputCapture={onChangeWord} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
+            <TextInput value={word} onInputCapture={onChangeWord} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
             <div css={cssSearchType} style={{whiteSpace: 'nowrap', marginLeft: 10}}>{ searchType === 0 ? 'ユーザー名' : 'グループ名' }</div>
             <div
               css={cssArrowDownButton}
@@ -150,15 +151,6 @@ const cssSearchType = css`
   color: #333;
 `;
 
-const TextArea: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (props) => {
-  return <input css={cssWordInput} type={'text'} {...props} />
-}
-
-const cssWordInput = css`
-  padding: 8px;
-  width: 100%;
-  font-size: 16px;
-`;
 
 const SearchTypeModal: React.FC<{
   isOpen: boolean;
