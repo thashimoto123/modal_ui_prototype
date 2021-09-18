@@ -1,9 +1,6 @@
 import { css } from '@emotion/react';
 
 export const cssSuggestions = css`
-  position: absolute;
-  top: 100%;
-  left: 0;
   width: 100%;
   background-color: #fff;
   box-shadow: 5px 5px 10px rgba(0,0,0,0.25);

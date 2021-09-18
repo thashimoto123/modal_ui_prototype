@@ -18,8 +18,9 @@ export const Modal: React.FC = () => {
   const [searchType, setSearchType] = useState<SearchType>(typeUser);
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [focused, setFocused] = useState(false);
-  const list: User[] | Group[] = searchType === typeUser ? userData.users : userData.groups;
-  const filteredList = searchType === typeUser ? (list as User[]).filter((user: User) => !selectedUsers.includes(user)) : list;
+  const userList = userData.users;
+  const groupList = userData.groups;
+  const filteredUserList = userList.filter((user: User) => !selectedUsers.includes(user));
   const onChangeWord = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWord(e.target.value);
   };
@@ -60,8 +61,8 @@ export const Modal: React.FC = () => {
             </div>
             {
               searchType === typeUser
-              ? <UserSuggestions visible={focused} word={word} list={filteredList} filter={userFilter} onSelect={onSelect} />
-              : <GroupSuggestions visible={focused} word={word} list={filteredList} filter={groupFilter} onSelect={onSelectGroup} />
+              ? <UserSuggestions css={cssSuggestions} visible={focused} word={word} list={filteredUserList} filter={userFilter} onSelect={onSelect} />
+              : <GroupSuggestions css={cssSuggestions} visible={focused} word={word} list={groupList} filter={groupFilter} onSelect={onSelectGroup} />
             }
           </div>
           <SelectedUsers users={selectedUsers} />
@@ -152,4 +153,10 @@ const cssTypeModalPosition = css`
   position: absolute;
   top: calc(100% + 10px);
   left: -5px;
+`;
+
+const cssSuggestions = css`
+  position: absolute;
+  top: 100%;
+  left: 0;
 `;

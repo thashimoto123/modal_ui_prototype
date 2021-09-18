@@ -1,8 +1,18 @@
 import React from 'react';
+import { Group } from '../../data';
 import * as styles from './styles';
 import useSuggestion from '../../hooks/useSuggestion';
 
-export const GroupSuggestions: React.FC<{ word: string; list: any[]; filter: any; onSelect: any; visible: boolean; }> = ({
+type Props = {
+  className?: string;
+  word: string;
+  list: Group[];
+  filter: (word: string, list: Group[]) => Group[];
+  visible: boolean;
+  onSelect: (group: Group) => void;
+}
+export const GroupSuggestions: React.FC<Props> = ({
+  className,
   word,
   list,
   filter,
@@ -14,7 +24,7 @@ export const GroupSuggestions: React.FC<{ word: string; list: any[]; filter: any
   const { suggestions, activeIndex } = useSuggestion(word, list, handleSelect, filter);
   if (!visible) return null;
   return (
-    <ul css={styles.cssSuggestions}>
+    <ul css={styles.cssSuggestions} className={className}>
     {
       suggestions.map((item, i) => (
         <li
