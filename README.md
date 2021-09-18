@@ -1,3 +1,6 @@
+![modal-ui-prototype](https://user-images.githubusercontent.com/32030486/133885951-f9860160-b301-4528-8c8a-c523a685117b.gif)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
