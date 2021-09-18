@@ -52,7 +52,7 @@ export const Modal: React.FC = () => {
         action === 2 &&
         <>
           <div css={cssWordInputWrapper}>
-            <TextInput value={word} onInputCapture={onChangeWord} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
+            <TextInput defaultValue={word} onInputCapture={onChangeWord} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
             <div css={cssSearchType} style={{whiteSpace: 'nowrap', marginLeft: 10}}>{ searchType === 0 ? 'ユーザー名' : 'グループ名' }</div>
             <div
               css={cssArrowDownButton}

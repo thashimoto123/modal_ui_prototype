@@ -14,8 +14,8 @@ export const SearchTypeModal: React.FC<{
     <div css={[cssSearchTypeModal, isOpen && cssIsOpen]} className={className}>
       <div css={cssModalTitle}>SEARCH IN</div>
       <div onChange={handleChange}>
-        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" value={0} defaultChecked={value === 0} />ユーザー名</label></div>
-        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" value={1} defaultChecked={value === 1} />グループ名</label></div>
+        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" defaultValue={0} defaultChecked={value === 0} />ユーザー名</label></div>
+        <div css={cssSearchTypeRadio}><label><input type="radio" name="searchType" defaultValue={1} defaultChecked={value === 1} />グループ名</label></div>
       </div>
     </div>
   )

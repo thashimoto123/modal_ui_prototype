@@ -9,7 +9,7 @@ export const SelectedUsers: React.FC<{ users: User[] }> = ({ users }) => {
         <li key={user.id}>
           <span css={cssInner}>
             <span>{ user.name }</span>
-            <select name="" id="" value={user.permission}>
+            <select name="" id="" defaultValue={user.permission}>
               <option value={0}>編集可</option>
               <option value={1}>閲覧のみ</option>
             </select>
