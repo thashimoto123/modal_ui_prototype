@@ -50,7 +50,7 @@ export const Modal: React.FC = () => {
         <>
           <div css={cssWordInputWrapper}>
             <TextInput defaultValue={word} onInputCapture={onChangeWord} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
-            <div css={cssSearchType} style={{whiteSpace: 'nowrap', marginLeft: 10}}>{ searchType === 0 ? 'ユーザー名' : 'グループ名' }</div>
+            <div css={cssSearchType} style={{whiteSpace: 'nowrap', marginLeft: 10}}>{ searchType === typeUser ? 'ユーザー名' : 'グループ名' }</div>
             <div
               css={[cssArrowDownButton, isOpenSearchType && cssButtonIsActive]}
               onClick={onClickSearchType}
@@ -59,7 +59,7 @@ export const Modal: React.FC = () => {
               <SearchTypeModal css={cssTypeModalPosition} isOpen={isOpenSearchType} onChange={onChangeSearchType} value={searchType} />
             </div>
             {
-              searchType === 0
+              searchType === typeUser
               ? <UserSuggestions visible={focused} word={word} list={filteredList} filter={userFilter} onSelect={onSelect} />
               : <GroupSuggestions visible={focused} word={word} list={filteredList} filter={groupFilter} onSelect={onSelectGroup} />
             }
