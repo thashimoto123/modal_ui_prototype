@@ -12,7 +12,6 @@ const kana2hira = (str:string): string => {
 }
 
 const hira2kana = (str: string): string => {
-  console.log(str);
   return str.replace(/[\u3041-\u3096]/g, (match: string) => {
       const chr = match.charCodeAt(0) + 0x60;
       return String.fromCharCode(chr);

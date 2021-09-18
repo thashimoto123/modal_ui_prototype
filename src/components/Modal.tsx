@@ -1,13 +1,13 @@
 import React, {  useState } from 'react';
 import { css } from '@emotion/react';
 import { FaChevronDown } from 'react-icons/fa';
-import { userData, User, Group } from './data';
-import { userFilter, groupFilter } from './filters';
-import { TextInput } from './components/TextInput';
-import { SearchTypeModal, typeUser, SearchType } from './components/SearchTypeModal';
-import { UserSuggestions } from './components/suggestions/UserSuggestions';
-import { GroupSuggestions } from './components/suggestions/GroupSuggestions';
-import { SelectedUsers } from './components/SelectedUsers';
+import { userData, User, Group } from '../data';
+import { userFilter, groupFilter } from '../filters';
+import { TextInput } from './TextInput';
+import { SearchTypeModal, typeUser, SearchType } from './SearchTypeModal';
+import { UserSuggestions } from './suggestions/UserSuggestions';
+import { GroupSuggestions } from './suggestions/GroupSuggestions';
+import { SelectedUsers } from './SelectedUsers';
 
 const actions = [{ id: 0, label: '共有しない' }, { id: 1, label: 'アカウント内のすべてのユーザーに共有する'}, { id: 2, label: 'アカウント内の選択したユーザーに共有する'}];
 
@@ -32,7 +32,7 @@ export const Modal: React.FC = () => {
     setWord("");
   }
   const onSelectGroup = (group: Group) => {
-    const users = group.users.filter((user) => selectedUsers.find((u) => u.id !== user.id))
+    const users = group.users.filter((user) => !selectedUsers.find((u) => u.id === user.id))
     setSelectedUsers([...selectedUsers, ...users]);
     setWord("");
   }

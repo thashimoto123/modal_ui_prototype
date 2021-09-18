@@ -3,7 +3,6 @@ interface Converter {
 }
 
 const kana2hira = (str:string): string => {
-  console.log(str);
   return str.replace(/[\u30a1-\u30f6]/g, (match: string):string => {
       const chr = match.charCodeAt(0) - 0x60;
       return String.fromCharCode(chr);
