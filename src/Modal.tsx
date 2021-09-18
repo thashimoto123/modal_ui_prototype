@@ -5,7 +5,8 @@ import { FaChevronDown } from 'react-icons/fa';
 import { userData, User, Group } from './data';
 import useSuggestion from './hooks/useSuggestion';
 import { userFilter, groupFilter } from './filters';
-import { TextInput } from '@/components/TextInput';
+import { TextInput } from './components/TextInput';
+import { SearchTypeModal } from './components/SearchTypeModal';
 
 console.log(userData);
 const actions = [{ id: 0, label: '共有しない' }, { id: 1, label: 'アカウント内のすべてのユーザーに共有する'}, { id: 2, label: 'アカウント内の選択したユーザーに共有する'}];
@@ -57,7 +58,7 @@ export const Modal: React.FC = () => {
               onClick={onClickSearchType}
             >
               <FaChevronDown />
-              <SearchTypeModal isOpen={isOpenSearchType} onChange={onChangeSearchType} value={searchType} />
+              <SearchTypeModal css={cssTypeModalPosition} isOpen={isOpenSearchType} onChange={onChangeSearchType} value={searchType} />
             </div>
             {
               searchType === 0
@@ -151,49 +152,12 @@ const cssSearchType = css`
   color: #333;
 `;
 
-
-const SearchTypeModal: React.FC<{
-  isOpen: boolean;
-  value: number;
-  onChange: (type: number) => void;
-}> = ({ isOpen, onChange, value }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(Number(e.target.value));
-  };
-  return <div css={cssSearchTypeModal} className={cx({ isOpen })}>
-    <div className="modalTitle">SEARCH IN</div>
-    <div onChange={handleChange}>
-      <div className="searchTypeRadio"><label><input type="radio" name="searchType" value={0} defaultChecked={value === 0} />ユーザー名</label></div>
-      <div className="searchTypeRadio"><label><input type="radio" name="searchType" value={1} defaultChecked={value === 1} />グループ名</label></div>
-    </div>
-  </div>
-}
-const cssSearchTypeModal = css`
+const cssTypeModalPosition = css`
   position: absolute;
   top: calc(100% + 10px);
   left: -5px;
-  width: 260px;
-  padding: 10px;
-  border-radius: 4px;
-  background-color: #fff;
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
-  opacity: 0;
-  transition: 250ms ease-out;
-  &.isOpen {
-    opacity: 1;
-  }
-  .modalTitle {
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #aaa;
-  }
-  .searchTypeRadio {
-    margin-bottom: 6px;
-    input {
-      margin-right: 4px;
-    }
-  }
 `;
+
 
 
 const Suggestions: React.FC<{ word: string; list: any[]; filter: any; onSelect: any; visible: boolean; }> = ({
