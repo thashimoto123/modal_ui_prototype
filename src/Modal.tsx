@@ -3,10 +3,11 @@ import { css } from '@emotion/react';
 import { cx } from '@emotion/css';
 import { FaChevronDown } from 'react-icons/fa';
 import { userData, User, Group } from './data';
-import useSuggestion from './hooks/useSuggestion';
 import { userFilter, groupFilter } from './filters';
 import { TextInput } from './components/TextInput';
 import { SearchTypeModal } from './components/SearchTypeModal';
+import { UserSuggestions } from './components/suggestions/UserSuggestions';
+import { GroupSuggestions } from './components/suggestions/GroupSuggestions';
 
 console.log(userData);
 const actions = [{ id: 0, label: '共有しない' }, { id: 1, label: 'アカウント内のすべてのユーザーに共有する'}, { id: 2, label: 'アカウント内の選択したユーザーに共有する'}];
@@ -62,7 +63,7 @@ export const Modal: React.FC = () => {
             </div>
             {
               searchType === 0
-              ? <Suggestions visible={focused} word={word} list={filteredList} filter={userFilter} onSelect={onSelect} />
+              ? <UserSuggestions visible={focused} word={word} list={filteredList} filter={userFilter} onSelect={onSelect} />
               : <GroupSuggestions visible={focused} word={word} list={filteredList} filter={groupFilter} onSelect={onSelectGroup} />
             }
           </div>
@@ -160,90 +161,9 @@ const cssTypeModalPosition = css`
 
 
 
-const Suggestions: React.FC<{ word: string; list: any[]; filter: any; onSelect: any; visible: boolean; }> = ({
-  word,
-  list,
-  filter,
-  visible,
-  onSelect,
-}) => {
-  const handleSelect = visible ? onSelect : () => {};
-  const { suggestions, activeIndex } = useSuggestion(word, list, handleSelect, filter);
-  if (!visible) return null;
-  return (
-    <ul css={cssSuggestions}>
-    {
-      suggestions.map((item, i) => (
-        <li
-          key={item + i}
-          className={cx({isActive: i === activeIndex})}
-          onMouseDown={() => onSelect(item)}
-        >{ item.name }<br/><span className="email">{ item.email }</span></li>
-      ))
-    }
-    </ul>
-  )
-}
 
-const GroupSuggestions: React.FC<{ word: string; list: any[]; filter: any; onSelect: any; visible: boolean; }> = ({
-  word,
-  list,
-  filter,
-  visible,
-  onSelect,
-}) => {
 
-  const handleSelect = visible ? onSelect : () => {};
-  const { suggestions, activeIndex } = useSuggestion(word, list, handleSelect, filter);
-  if (!visible) return null;
-  return (
-    <ul css={cssSuggestions}>
-    {
-      suggestions.map((item, i) => (
-        <li
-          key={item + i}
-          className={cx({isActive: i === activeIndex})}
-          onMouseDown={() => onSelect(item)}
-        >{ item.name }<br/><span className="members">{ item.users.length } users</span></li>
-      ))
-    }
-    </ul>
-  )
-}
 
-const cssSuggestions = css`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 5px 5px 10px rgba(0,0,0,0.25);
-  list-style: none;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  max-height: 300px;
-  overflow: auto;
-  li {
-    width: 100%;
-    padding: 8px;
-    &:not(:last-child) {
-      border-bottom: 1px solid #ddd;
-    }
-    list-style: none;
-    list-style-type: none;
-    cursor: pointer;
-    &:hover,
-    &.isActive {
-      background-color: #ddeef7;
-    }
-    .email,
-    .members {
-      font-size: 12px;
-      color: #888;
-    }
-  }
-`;
 
 const SelectedUsers: React.FC<{ users: User[] }> = ({ users }) => {
   return (
