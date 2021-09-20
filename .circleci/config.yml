@@ -1,13 +1,10 @@
 # This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
 
-orbs:
-  node: circleci/node:14
-
 jobs:
   build:
     docker:
-      - image: circleci/node:14
+      - image: circleci/node:14.17
     steps:
       - checkout
       - restore_cache:
@@ -21,7 +18,7 @@ jobs:
             - ./node_modules
   test:
     docker:
-      - image: circleci/node:14
+      - image: circleci/node:14.17
     steps:
       - checkout
       - restore_cache:
